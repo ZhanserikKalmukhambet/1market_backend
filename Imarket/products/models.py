@@ -1,12 +1,11 @@
-
-
 from django.db import models
-
-# Create your models here.
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name='Name')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Category"
@@ -15,21 +14,18 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    def to_json(self):
-        return {
-            'id': self.pk,
-            'name': self.name
-        }
-
 
 class Product(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Title')
-    image = models.ImageField(upload_to='images/%Y/%m/%d', null=True, blank=True)
+    name = models.CharField(max_length=255, verbose_name='Name')
+    image = models.ImageField(upload_to='images/%Y/%m/%d', null=True, blank=True, verbose_name='Image')
     price = models.FloatField(verbose_name='Price')
     description = models.TextField(null=True, verbose_name='Description')
-    count = models.IntegerField(default=0, verbose_name='quantity')
-    rating = models.FloatField()
+    count = models.IntegerField(default=0, verbose_name='Quantity')
+    rating = models.FloatField(null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='products')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Product'
@@ -39,13 +35,19 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} - {self.category}"
 
-    def to_json(self):
-        return {
-            'id': self.pk,
-            'name': self.name,
-            'price': self.price,
-            'description': self.description,
-            'count': self.count,
-            'is_active': self.is_active,
-            'category': self.category.to_json()
-        }
+
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to='images/%Y/%m/%d', null=True, blank=True, verbose_name='Image')
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, related_name='product_images')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Product Image'
+        verbose_name_plural = 'Product Images'
+        ordering = ('-created_at', )
+
+    def __str__(self):
+        return f'Image of {self.product.name}'
