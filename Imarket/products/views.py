@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework import generics
 
 from django.http import Http404
 
@@ -8,6 +9,18 @@ from .models import Category, Product
 from .serializers import ProductSerializer, CategorySerializer
 
 
+# using genericViews for simplicity
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CategoryDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+# ModelSerializer with APIView
 class ProductList(APIView):
     def get(self, request):
         products = Product.objects.all()
@@ -50,4 +63,3 @@ class ProductDetails(APIView):
         product = self.get_object(id)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
