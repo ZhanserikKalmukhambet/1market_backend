@@ -17,7 +17,8 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name='Name')
-    image = models.ImageField(upload_to='images/%Y/%m/%d', null=True, blank=True, verbose_name='Image')
+    main_image = models.ImageField(upload_to='images/%Y/%m/%d', null=True, blank=True, verbose_name='Main Image')
+    is_active = models.BooleanField(default=True, verbose_name='Is Active?')
     price = models.FloatField(verbose_name='Price')
     description = models.TextField(null=True, verbose_name='Description')
     count = models.IntegerField(default=0, verbose_name='Quantity')
