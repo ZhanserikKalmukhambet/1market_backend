@@ -48,7 +48,7 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = 'Product Image'
         verbose_name_plural = 'Product Images'
-        ordering = ('-created_at', )
+        ordering = ('-created_at',)
 
     def __str__(self):
         return f'Image of {self.product.name}'

@@ -1,12 +1,24 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework import generics
+from rest_framework import generics, viewsets
 
 from django.http import Http404
 
-from .models import Category, Product
-from .serializers import ProductSerializer, CategorySerializer
+from .models import Category, Product, ProductImage
+from .serializers import ProductSerializer, CategorySerializer, ProductImageSerializer
+
+
+# viewset
+class ProductImageViewSet(viewsets.ModelViewSet):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs.get("pk")
+        if not pk:
+            return ProductImage.objects.all()[:2]
+        return ProductImage.objects.filter(pk=pk)
 
 
 # using genericViews for simplicity
