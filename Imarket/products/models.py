@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -24,6 +25,8 @@ class Product(models.Model):
     count = models.IntegerField(default=0, verbose_name='Quantity')
     rating = models.FloatField(null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='products')
+
+    user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
