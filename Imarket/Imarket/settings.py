@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # internal applications
     'products',
+    'orders',
 ]
 
 MIDDLEWARE = [

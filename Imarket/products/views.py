@@ -16,12 +16,6 @@ class ProductImageViewSet(viewsets.ModelViewSet):
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
 
-    def get_queryset(self):
-        pk = self.kwargs.get("pk")
-        if not pk:
-            return ProductImage.objects.all()[:2]
-        return ProductImage.objects.filter(pk=pk)
-
 
 # using genericViews for simplicity
 class CategoryList(generics.ListCreateAPIView):
@@ -34,7 +28,6 @@ class CategoryDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
 
 
-# ModelSerializer with APIView
 class ProductAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -44,11 +37,10 @@ class ProductAPIView(generics.ListCreateAPIView):
 class ProductAPIUpdate(generics.RetrieveUpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsOwnerOrReadOnly,)
 
 
 class ProductAPIDesrtoy(generics.RetrieveDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = (IsAdminOrReadOnly,)
-
