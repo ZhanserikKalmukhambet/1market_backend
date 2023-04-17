@@ -1,9 +1,17 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
+def validate_rating(value):
+    if 0 <= value <= 5:
+        return value
+    else:
+        raise ValidationError("This field accepts rating between 0 and 5")
+
+
 class Category(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Name')
+    name = models.CharField(max_length=255, verbose_name='Name', unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -17,13 +25,13 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Name')
+    name = models.CharField(max_length=255, verbose_name='Name', unique=True)
     main_image = models.ImageField(upload_to='images/%Y/%m/%d', null=True, blank=True, verbose_name='Main Image')
     is_active = models.BooleanField(default=True, verbose_name='Is Active?')
     price = models.FloatField(verbose_name='Price')
     description = models.TextField(null=True, verbose_name='Description')
     count = models.IntegerField(default=0, verbose_name='Quantity')
-    rating = models.FloatField(null=True)
+    rating = models.FloatField(null=True, validators=[validate_rating])
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='products')
 
     user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE)

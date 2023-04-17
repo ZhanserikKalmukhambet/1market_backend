@@ -18,7 +18,7 @@ class Order(models.Model):
         ordering = ('-created_at', '-updated_at',)
 
     def __str__(self):
-        return f'{self.pk}) {self.address}, {self.phone_number}'
+        return f'{self.pk}. {self.address} - {self.phone_number}'
 
     def get_total_price(self):
         return sum(item.get_price() for item in self.items.all())

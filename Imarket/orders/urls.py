@@ -10,6 +10,6 @@ urlpatterns = [
 r = routers.DefaultRouter()
 
 r.register(r'orders', OrderViewSet, basename='order')
-r.register(r'order_items', OrderItemViewSet, basename='order_item')
+r.register(r'order_items', OrderItemViewSet)
 
 urlpatterns += r.urls
