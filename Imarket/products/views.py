@@ -11,19 +11,12 @@ from .models import Category, Product, ProductImage
 from .serializers import ProductSerializer, CategorySerializer, ProductImageSerializer
 
 
-# viewset
 class ProductImageViewSet(viewsets.ModelViewSet):
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
 
 
-# using genericViews for simplicity
-class CategoryList(generics.ListCreateAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-
-class CategoryDetails(generics.RetrieveUpdateDestroyAPIView):
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 

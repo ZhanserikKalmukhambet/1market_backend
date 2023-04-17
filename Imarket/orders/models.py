@@ -1,10 +1,5 @@
 from django.db import models
 
-from Imarket.products.models import Product
-
-
-from Imarket.products.models import Product
-
 
 class Order(models.Model):
     first_name = models.CharField(max_length=100, verbose_name='First name')
@@ -31,11 +26,11 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(to=Order, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(to=Product, on_delete=models.CASCADE, related_name='order_items')
+    product = models.ForeignKey(to='products.Product', on_delete=models.CASCADE, related_name='order_items')
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f'{self.id} - {self.order.id}'
+        return f'{self.id} ({self.product}) --> {self.order.first_name}'
 
     def get_price(self):
         return self.quantity * self.product.price
