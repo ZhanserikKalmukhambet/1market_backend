@@ -10,9 +10,6 @@ def validate_rating(value):
 
 
 class Shop(models.Model):
-    user = models.CharField(max_length=255)  # it should be CHANGED to USER object (SELLER), permanently - string
-    # user.phone_number #
-
     name = models.CharField(max_length=255, unique=True)
     rating = models.FloatField(default=0, verbose_name='Rating', validators=[validate_rating, ])
     address = models.CharField(max_length=255, verbose_name='Shop address', unique=True)
