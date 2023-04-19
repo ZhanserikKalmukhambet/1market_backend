@@ -34,8 +34,6 @@ class Product(models.Model):
     rating = models.FloatField(null=True, validators=[validate_rating])
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='products')
 
-    user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
